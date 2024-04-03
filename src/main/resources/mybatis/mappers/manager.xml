@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="manager">
+
+	<select id="membermainlist" resultType="com.javaex.vo.ManagerVo">
+		<![CDATA[
+			select	member.no,
+					member.name,
+					member.hp,
+			        period,
+			        approval,
+			        deadline,
+			        locker_no lockerNo,
+			        trainer.name tName,
+			        pt_total ptTotal,
+			        pt_count ptCount	
+			from member, general, pt, trainer
+			where member.no = general.no
+			and member.no = pt.no
+			and (member.no, deadline) in	(select	no,
+											max(deadline)
+											from general
+											group by no)
+			and pt.trainer_no = trainer.trainer_no
+			order by deadline desc;
+		]]>
+	</select>
+	
+	<!-- 리스트 -->
+	<select id="membermainlist2" parameterType="Map" resultType="com.javaex.vo.ManagerVo">
+		<![CDATA[
+			select m.no, m.name, m.hp, m.period, m.approval, g.deadline, 
+			m.locker_no as lockerNo, g.pt_total ptTotal, g.pt_count ptCount, g.tname 
+			from member m 
+			left outer join (
+			    select member.no, member.name, member.hp, period, approval, deadline, 
+			    locker_no, trainer.name tname, pt_total, pt_count
+			    from member 
+			    left outer join general on member.no = general.no
+			    left outer join pt on member.no = pt.no
+			    left outer join trainer on pt.trainer_no = trainer.trainer_no
+			) g on m.no = g.no
+			where g.deadline in (select max(deadline) from general group by no)
+			order by no desc
+			limit #{startRowNo},#{listCnt}
+		]]>
+	</select>
+	
+	<select id="total" parameterType="String" resultType="int">
+		<![CDATA[ 
+			select	count(*)
+			from member
+			where member.name like concat('%', #{keyword},'%')
+		]]>
+	</select>
+	
+	<select id="memberS" parameterType="int" resultType="com.javaex.vo.MemberVo">
+		<![CDATA[ 
+			select	no,
+					name,
+					id,
+			        hp,
+			        address,
+			        gender,
+			        approval,
+			        locker_no lockerNo
+			from member
+			where no = #{no}
+		 ]]>
+	</select>
+	
+	<select id="generalS" parameterType="int" resultType="com.javaex.vo.GeneralVo">
+		<![CDATA[ 
+			select	no,
+					reg_date regDate,
+					deadline,
+			        price
+			from general
+			where no = #{no}
+			order by deadline desc limit 1;
+		 ]]>
+	</select>
+	
+	<select id="ptS" parameterType="int" resultType="com.javaex.vo.PtVo">
+		<![CDATA[ 
+				select	pt_count ptCount,
+						pt_total ptTotal
+				from pt
+				where no = #{no}
+		 ]]>
+	</select>
+	
+	<select id="attendS" parameterType="int" resultType="com.javaex.vo.AttendVo" >
+		<![CDATA[ 
+			select	entry_time entryTime,
+					leave_time leaveTime
+			from attend
+			where no = #{no}
+			order by leave_time desc
+		 ]]>
+	</select>
+	
+	<select id="lessonS" parameterType="int" resultType="com.javaex.vo.LessonVo">
+		select	comment,
+				l_date lDate
+		from lesson l
+        left outer join pt p on l.pt_no = p.trainer_no
+        left outer join member m on p.no = m.no
+        where m.no = #{no}
+	</select>
+	
+	<select id="generalSS" parameterType="int" resultType="com.javaex.vo.GeneralVo">
+		<![CDATA[ 
+			select	reg_date regDate,
+					deadline,
+			        price
+			from general
+			where no = #{no}
+			order by deadline desc;
+		
+		 ]]>
+	</select>
+
+	<!-- 회원수정 -->
+	<update id="modify" parameterType="com.javaex.vo.MemberVo">
+		<![CDATA[
+		update member
+		set
+        	name = #{name},
+     		id = #{id},
+        	hp = #{hp},
+        	address = #{address},
+        	gender = #{gender},
+        	approval = #{approval},
+        	locker_no = #{lockerNo}
+		where no = #{no}
+		]]>
+	</update>
+
+</mapper>
