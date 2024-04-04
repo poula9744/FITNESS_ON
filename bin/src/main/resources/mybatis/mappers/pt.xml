@@ -16,8 +16,7 @@
 		<![CDATA[
 			select m.name as memberName,
 				   p.pt_count as ptCount,
-			       t.name as trainerName,
-			       m.no as no
+			       t.name as trainerName
 			from pt p,member m,trainer t
 			where p.no = m.no
 			and p.trainer_no = t.trainer_no

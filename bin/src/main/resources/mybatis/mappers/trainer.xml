@@ -68,6 +68,40 @@
 		]]>
 	</select>
 	 
+	 <!-- 강사소개리스트 -->
+	<select id="selectTrainerList" resultType="com.javaex.vo.TrainerVo">
+		<![CDATA[
+			select trainer_no trainerNo,
+				   name,
+				   saveName,
+				   career
+			from trainer
+		]]>
+	</select>
+	
+	<!-- 트레이너 등록폼(수정) -->
+	<select id="trainerinsertform" resultType="com.javaex.vo.TrainerVo">
+		<![CDATA[
+			select trainer_no trainerNo,
+				   name,
+				   saveName,
+				   career
+			from trainer
+			where trainer_no = #{no}
+		]]>
+	</select>
+	
+	<update id="Tupdateinsert" parameterType="com.javaex.vo.TrainerVo">
+		<![CDATA[
+			update trainer
+			set orgName = #{orgName},
+				saveName = #{saveName},
+			    filePath = #{filePath},
+			    fileSize = #{fileSize},
+			    career = #{career}
+			where trainer_no = #{trainerNo}
+		]]>
+	</update>
 
 	
 </mapper>

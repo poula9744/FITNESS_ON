@@ -115,6 +115,24 @@
 			and m.no = #{no}
 			]]>
 	</select>
-
+	
+	<insert id="lessonWrite" parameterType="com.javaex.vo.LessonVo">
+		<![CDATA[
+			insert into lesson (pt_no, comment, l_date)
+			select #{ptNo}, #{comment}, now()
+			from pt p
+			join member m on p.no = m.no
+			where m.no = #{no}
+		]]>
+	</insert>
+	<update id="lessonUpdate" parameterType="com.javaex.vo.LessonVo">
+		<![CDATA[
+		update pt
+		set
+        	pt_count = pt_count - 1,
+        	pt_total = pt_total +1
+		where no = #{no}
+		]]>
+	</update>
 
 </mapper>

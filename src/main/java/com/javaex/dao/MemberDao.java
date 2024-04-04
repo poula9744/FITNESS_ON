@@ -88,4 +88,19 @@ public class MemberDao {
 
 		return mblessonList;
 	}
+	
+	//lesson 등록 
+	public int memberLessonWrite(LessonVo lessonVo ) {
+		System.out.println("MemberDao.memberLessonSelectList()");
+		System.out.println("왜안될까요"+lessonVo);
+		int count = sqlSession.insert("member.lessonWrite", lessonVo);
+		System.out.println(count);
+		return count;
+	}
+	
+	public int memberLessonUpdate(LessonVo lessonVo) {
+		System.out.println("MemberDao.memberLessonSelectList()");
+		int count = sqlSession.insert("member.lessonUpdate", lessonVo);
+		return count;
+	}
 }

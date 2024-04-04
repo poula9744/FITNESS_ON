@@ -125,9 +125,9 @@ public class TrainerController {
 		}
 	}
 
-///////////////////////////////////////////////////////
-///              트레이너 소개                    //
-//트레이너 소개창
+	///////////////////////////////////////////////////////
+	///              트레이너 소개                    //
+	//트레이너 소개창
 	@GetMapping("api/trainer/trainerintroduction")
 	public JsonResult trainerintroduction() {
 		System.out.println("TrainerController.trainerintroduction()");
@@ -139,7 +139,7 @@ public class TrainerController {
 		return JsonResult.success(TrainerList);
 	}
 
-//트레이너 등록폼(수정폼)
+	//트레이너 등록폼(수정폼)
 	@GetMapping("api/trainer/trainerupdateinsert")
 	public JsonResult trainerupdateinsertform(HttpServletRequest request) {
 		System.out.println("TrainerController.trainerupdateinsertform()");
@@ -151,7 +151,7 @@ public class TrainerController {
 		return JsonResult.success(trainerVo);
 	}
 
-//트레이너 수정(등록,수정)
+	//트레이너 수정(등록,수정)
 	@PutMapping("api/trainer/trainerupdateinsert")
 	public JsonResult trainerupdateinsert(@RequestParam int trainerNo, @RequestParam String career,
 			@RequestParam MultipartFile file) {

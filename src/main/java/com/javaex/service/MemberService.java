@@ -76,7 +76,7 @@ public class MemberService {
 		int ptNo = ptInfoList.get(0).getPtNo();
 
 		// 레슨리스트
-		List<LessonVo> mblessonList = memberDao.memberLessonSelectList(1);
+		List<LessonVo> mblessonList = memberDao.memberLessonSelectList(ptNo);
 
 		Map<String, Object> lessonMap = new HashMap<String, Object>();
 		lessonMap.put("memberVo", memberVo);
@@ -84,6 +84,14 @@ public class MemberService {
 		lessonMap.put("mblessonList", mblessonList);
 
 		return lessonMap;
+	}
+	
+	//lesson 리스트 등록 
+	public int exeLessonWrite(LessonVo lessonVo) {
+		System.out.println("MemberService.exeLessonWrite()");
+		int result = memberDao.memberLessonWrite(lessonVo);
+		memberDao.memberLessonUpdate(lessonVo);
+		return result;
 	}
 
 }
