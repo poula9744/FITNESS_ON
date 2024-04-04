@@ -52,7 +52,7 @@
 	<!-- 일반회원 운동 시작시간 -->
 	<select id="trainingStartTime" resultType="String"  parameterType="int">
 		<![CDATA[
-			select entry_time as entryTime
+			select DATE_FORMAT(entry_time, '%m-%d-%h:%i') as entryTime
 			from attend
 			where no = #{no}
 			order by entry_time desc
@@ -73,7 +73,7 @@
 	<!-- 일반회원 운동 종료시간 -->
 	<select id="trainingEndTime" resultType="String"  parameterType="int">
 		<![CDATA[
-			select leave_time as leaveTime
+			select DATE_FORMAT(leave_time, '%m-%d-%h:%i') as leaveTime
 			from attend
 			where no = #{no}
 			order by leave_time desc

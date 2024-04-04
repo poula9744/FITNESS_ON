@@ -2,18 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="gym">
-	<!-- 일반회원권 결제요청폼 -->
+	<!-- 일반회원권 승인 -->
+	<update id="approve" parameterType="int">
+		<![CDATA[ 
+			update member
+			set approval = "등록"
+			where no = #{no}
+		]]>
+	</update>
 
-
-
-	<!-- 일반회원권 등록 -->
+	<!--- 일반회원권 등록 -->
 	<insert id="registerMembership"
 		parameterType="com.javaex.vo.GeneralVo">
 		<![CDATA[
 			insert into general
-			values(#{no}, now(), null, null, #{remainDate})
+			values(#{no}, #{regDate}, #{deadline}, #{price})
 		]]>
 	</insert>
+	
+	<!-- 일반회원권 등록 2 -->
+	<update id="registerMembership2" parameterType="com.javaex.vo.MemberVo">
+		<![CDATA[ 
+			update member
+			set approval = #{approval},
+				  period = #{period}
+			where no = #{no}
+		]]>
+	</update>
+
 	<!-- 일반회원권 만료일 -->
 	<select id="membershipOver" resultType="String"
 		parameterType="int">

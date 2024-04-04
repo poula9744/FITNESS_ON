@@ -5,7 +5,7 @@
 	<!-- 로그인 -->
 	<select id="selectByIdPw" resultType="com.javaex.vo.MemberVo" parameterType="com.javaex.vo.MemberVo">
 		<![CDATA[
-			select no,name, address, gender, hp, age, locker_no as lockerNo
+			select no,name, address, gender, hp, age, locker_no as lockerNo, approval
 			from member
 			where id= #{id}
 			and password=#{password}
@@ -30,16 +30,18 @@
 	<!-- 로그인 후 메인 화면 -->
 	<select id="selectMemberInfo" resultType="com.javaex.vo.MemberVo" parameterType="int">
 		<![CDATA[
-			select m.name, g.reg_date as regDate, g.deadline, p.pt_count as ptCount, t.name as trainerName, m.locker_no as lockerNo
+			select m.name, g.reg_date as regDate, g.deadline, p.pt_count as ptCount, t.name as trainerName, m.locker_no as lockerNo, approval
 			from member m
 			left join general g on m.no = g.no
 			left join pt p on m.no = p.no
 			left join trainer t on p.trainer_no = t.trainer_no
 			where m.no = #{no}
+			order by deadline desc
+			limit 1
 		]]>
 	</select>
 	
-	<!-- 회원정보 수정 폼  -->
+	<!-- 회원정보 수정 폼폼  -->
 	<select id="selectMember" resultType="com.javaex.vo.MemberVo" parameterType="int">
 		<![CDATA[
 			select id, password, name, hp, age, address

@@ -31,19 +31,19 @@
 	<select id="membermainlist2" parameterType="Map" resultType="com.javaex.vo.ManagerVo">
 		<![CDATA[
 			select m.no, m.name, m.hp, m.period, m.approval, g.deadline, 
-         m.locker_no as lockerNo, g.pt_total ptTotal, g.pt_count ptCount, g.tname 
-         from member m 
-         left outer join (
-             select member.no, member.name, member.hp, period, approval, deadline, 
-             locker_no, trainer.name tname, pt_total, pt_count
-             from member 
-             left outer join general on member.no = general.no
-             left outer join pt on member.no = pt.no
-             left outer join trainer on pt.trainer_no = trainer.trainer_no
-         ) g on m.no = g.no
-         where g.deadline in (select max(deadline) from general group by no)
-         order by no desc
-         limit #{startRowNo},#{listCnt}
+			m.locker_no as lockerNo, g.pt_total ptTotal, g.pt_count ptCount, g.tname 
+			from member m 
+			left outer join (
+			    select member.no, member.name, member.hp, period, approval, deadline, 
+			    locker_no, trainer.name tname, pt_total, pt_count
+			    from member 
+			    left outer join general on member.no = general.no
+			    left outer join pt on member.no = pt.no
+			    left outer join trainer on pt.trainer_no = trainer.trainer_no
+			) g on m.no = g.no
+			where g.deadline in (select max(deadline) from general group by no)
+			order by no desc
+			limit #{startRowNo},#{listCnt}
 		]]>
 	</select>
 	

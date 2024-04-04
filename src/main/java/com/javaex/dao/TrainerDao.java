@@ -1,5 +1,7 @@
 package com.javaex.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,12 +28,6 @@ public class TrainerDao {
 		return count;
 	}
 
-	// 트레이너 사진 등록
-	public int addPhoto(TrainerVo trainerVo) {
-		System.out.println("TrainerDao.addPhoto()");
-		int count = sqlSession.update("trainer.addPhoto", trainerVo);
-		return count;
-	}
 
 	// id 중복체크
 	public int check(String id) {
@@ -56,13 +52,41 @@ public class TrainerDao {
 		System.out.println(count);
 		return count;
 	}
-	
-	//트레이너 이름, 사진 저장 이름, 전체회원수, 관리 회원 수
+
+	// 트레이너 이름, 사진 저장 이름, 전체회원수, 관리 회원 수
 	public TrainerVo selectTrainerInfo(int no) {
 		System.out.println("TrainerDao.selectTrainerInfo()");
 
 		TrainerVo trainerVo = sqlSession.selectOne("trainer.selectTrainerInfo", no);
 		return trainerVo;
+	}
+
+	//////////////////////////////////////////////
+	// 트레이너 소개 및 pt등록창
+	public List<TrainerVo> trainerList() {
+		System.out.println("TrainerDao.trainerList()");
+
+		List<TrainerVo> TrainerList = sqlSession.selectList("trainer.selectTrainerList");
+
+		return TrainerList;
+	}
+
+	// 트레이너 등록폼(수정)
+	public TrainerVo trainerinsertform(int no) {
+		System.out.println("TrainerDao.trainerinsertform()");
+
+		TrainerVo trainerVo = sqlSession.selectOne("trainer.trainerinsertform", no);
+		System.out.println(trainerVo);
+
+		return trainerVo;
+	}
+
+	// 트레이너 수정(등록,수정)
+	public int trainerupdateinsert(TrainerVo trainerVo) {
+		System.out.println("TrainerDao.trainerupdateinsert()");
+
+		return sqlSession.update("trainer.Tupdateinsert", trainerVo);
+
 	}
 
 }

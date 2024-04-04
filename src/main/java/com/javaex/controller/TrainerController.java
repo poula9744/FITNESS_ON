@@ -1,11 +1,15 @@
 package com.javaex.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.javaex.service.TrainerService;
 import com.javaex.util.JsonResult;
@@ -119,6 +123,43 @@ public class TrainerController {
 			// 토큰이 없거나(로그인상태 아님) 변조된 경우
 			return JsonResult.fail("fail");
 		}
+	}
+
+///////////////////////////////////////////////////////
+///              트레이너 소개                    //
+//트레이너 소개창
+	@GetMapping("api/trainer/trainerintroduction")
+	public JsonResult trainerintroduction() {
+		System.out.println("TrainerController.trainerintroduction()");
+
+		List<TrainerVo> TrainerList = trainerService.exeTrainerList();
+
+		System.out.println(TrainerList);
+
+		return JsonResult.success(TrainerList);
+	}
+
+//트레이너 등록폼(수정폼)
+	@GetMapping("api/trainer/trainerupdateinsert")
+	public JsonResult trainerupdateinsertform(HttpServletRequest request) {
+		System.out.println("TrainerController.trainerupdateinsertform()");
+
+		int no = JwtUtil.getNoFromHeader(request);
+
+		TrainerVo trainerVo = trainerService.exeTrainerinsertform(no);
+		System.out.println(trainerVo);
+		return JsonResult.success(trainerVo);
+	}
+
+//트레이너 수정(등록,수정)
+	@PutMapping("api/trainer/trainerupdateinsert")
+	public JsonResult trainerupdateinsert(@RequestParam int trainerNo, @RequestParam String career,
+			@RequestParam MultipartFile file) {
+		System.out.println("TrainerController.trainerupdateinsert()");
+
+		trainerService.exeTrainerupdateinsert(trainerNo, file, career);
+
+		return JsonResult.success("성공");
 	}
 
 }

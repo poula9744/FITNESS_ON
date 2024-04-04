@@ -64,6 +64,57 @@
 		where no = #{no}
 		]]>
 	</update>
+	
+	<!-- 1번회원의 PT리스트 -->
+	<select id="selectMemberPt" resultType="com.javaex.vo.PtVo" parameterType="int">
+		<![CDATA[
+			select  p.pt_no as ptno,
+					p.no,
+			        p.trainer_no as trainerno,
+			        p.pt_count as ptcount,
+			        p.pt_total as pttotal,
+			        t.name as trainername
+			from pt p, trainer t
+			where p.trainer_no = t.trainer_no
+			and p.no = #{no}
+			]]>
+	</select>
+
+	<!-- 1번회원의 Lesson리스트 -->
+	<select id="selectLessonByPtNo" resultType="com.javaex.vo.LessonVo" parameterType="int">
+		<![CDATA[
+			select  p.pt_no as ptno,
+					p.no,
+			        p.trainer_no as trainerno,
+			        p.pt_count as ptcount,
+			        p.pt_total as pttotal,
+			        l.l_no as lno,
+			        l.l_date as ldate,
+			        l.comment
+			from pt p, lesson l
+			where p.pt_no = l.pt_no
+			and p.no = #{ptno}
+			]]>
+	</select>
+
+
+
+
+	<!-- 회원정보 + 해당회원의 lesson 정보 -->
+	<select id="selectMemberCmt" resultType="com.javaex.vo.MemberVo" parameterType="com.javaex.vo.MemberVo">
+		<![CDATA[
+			select  m.name,
+					m.hp,
+					l.l_date,
+					p.pt_total,
+					p.pt_count,
+					l.comment
+			from pt p, member m, lesson l
+			where p.no = m.no
+			and p.pt_no = l.pt_no
+			and m.no = #{no}
+			]]>
+	</select>
 
 
 </mapper>

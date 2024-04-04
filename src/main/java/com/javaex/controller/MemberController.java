@@ -1,5 +1,7 @@
 package com.javaex.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -101,6 +103,27 @@ public class MemberController {
 		if (no != -1) { // 정상
 			memberService.exeModify(memberVo);
 			return JsonResult.success(memberVo);
+		} else {
+			// 토큰이 없거나(로그인상태 아님) 변조된 경우
+			return JsonResult.fail("fail");
+		}
+	}
+
+	// 회원정보 + 해당회원의 lesson 리스트정보
+	@GetMapping(value = "/api/member/lessonlist")
+	public JsonResult lessonlist(HttpServletRequest request) {
+		System.out.println("MemberController.lessonlist()");
+
+		// 토큰에서 로그인한 회원번호
+		// JWT 토큰에서 no 값을 추출
+		int no = JwtUtil.getNoFromHeader(request);
+		// int no = memberVo.getNo();
+		System.out.println(no);
+		if (no != -1) { // 정상
+			Map<String, Object> lessonMap = memberService.exeMbLessonList(no);
+			System.out.println(lessonMap);
+
+			return JsonResult.success(lessonMap);
 		} else {
 			// 토큰이 없거나(로그인상태 아님) 변조된 경우
 			return JsonResult.fail("fail");

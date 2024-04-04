@@ -18,7 +18,7 @@ import com.javaex.vo.PtVo;
 
 @Service
 public class ManagerService {
-	
+
 	@Autowired
 	private ManagerDao managerDao;
 
@@ -45,15 +45,12 @@ public class ManagerService {
 
 		// 전체 글개수
 		int totalCnt = managerDao.totalCount(util.getKeyword());
-		
 
 		// 마지막 버튼 번호
 		int endPageBtnNo = (int) Math.ceil(util.getPage() / (double) pageBtnCnt) * pageBtnCnt;
-		
 
 		// 시작 버튼 번호
 		int startPageNo = (endPageBtnNo - pageBtnCnt) + 1;
-		
 
 		// 다음 화살표 유무
 		boolean next = false;
@@ -68,13 +65,13 @@ public class ManagerService {
 		System.out.println(totalCnt);
 		System.out.println(endPageBtnNo);
 		System.out.println(startPageNo);
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
 		map.put("totalCnt", totalCnt);
 		map.put("endPageBtnNo", endPageBtnNo);
 		map.put("startPageNo", startPageNo);
-		
+
 		return map;
 	}
 
@@ -109,18 +106,20 @@ public class ManagerService {
 		memberMap.put("gv", gv);
 		memberMap.put("pv", pv);
 		memberMap.put("attendList", attendList);
-		memberMap.put("lessonList", lessonList);
 		memberMap.put("generalList", generalList);
+		
+		memberMap.put("lessonList", lessonList);
+		
 
 		System.out.println(memberMap);
 
 		return memberMap;
 	}
-	
-	//회원 수정 
+
+	// 회원 수정
 	public int exeModify(MemberVo memberVo) {
-		
+
 		return managerDao.modify(memberVo);
 	}
-	
+
 }

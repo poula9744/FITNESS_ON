@@ -3,29 +3,38 @@ package com.javaex.vo;
 public class PtVo {
 
 	//필드
+	private int ptNo;
 	private int no;
 	private int trainerNo;
 	private int ptCount;
 	private int ptTotal;
-	private String trainingDate;
-	private String comment;
+	private String membername;
+	private String trainername;
 	
 	//생성자
 	public PtVo() {
 		super();
 	}
 
-	public PtVo(int no, int trainerNo, int ptCount, int ptTotal, String trainingDate, String comment) {
+	public PtVo(int ptNo, int no, int trainerNo, int ptCount, int ptTotal, String membername, String trainername) {
 		super();
+		this.ptNo = ptNo;
 		this.no = no;
 		this.trainerNo = trainerNo;
 		this.ptCount = ptCount;
 		this.ptTotal = ptTotal;
-		this.trainingDate = trainingDate;
-		this.comment = comment;
+		this.membername = membername;
+		this.trainername = trainername;
 	}
 
-	//메소드 - g/s
+	public int getPtNo() {
+		return ptNo;
+	}
+
+	public void setPtNo(int ptNo) {
+		this.ptNo = ptNo;
+	}
+
 	public int getNo() {
 		return no;
 	}
@@ -58,27 +67,26 @@ public class PtVo {
 		this.ptTotal = ptTotal;
 	}
 
-	public String getTrainingDate() {
-		return trainingDate;
+	public String getMembername() {
+		return membername;
 	}
 
-	public void setTrainingDate(String trainingDate) {
-		this.trainingDate = trainingDate;
+	public void setMembername(String membername) {
+		this.membername = membername;
 	}
 
-	public String getComment() {
-		return comment;
+	public String getTrainername() {
+		return trainername;
 	}
 
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setTrainername(String trainername) {
+		this.trainername = trainername;
 	}
 
-	//메소드 - 일반
 	@Override
 	public String toString() {
-		return "PtVo [no=" + no + ", trainerNo=" + trainerNo + ", ptCount=" + ptCount + ", ptTotal=" + ptTotal
-				+ ", trainingDate=" + trainingDate + ", comment=" + comment + "]";
+		return "PtVo [ptNo=" + ptNo + ", no=" + no + ", trainerNo=" + trainerNo + ", ptCount=" + ptCount + ", ptTotal="
+				+ ptTotal + ", membername=" + membername + ", trainername=" + trainername + "]";
 	}
 	
 	

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pt">
+	
+	<!-- 회원 pt등록(수정) -->
+	<update id="insert" parameterType="com.javaex.vo.PtVo">
+		<![CDATA[
+			insert into pt 
+			values(null, #{no}, #{trainerNo}, #{ptCount}, #{ptTotal})
+		]]>
+	</update>
+
+	<!-- 나의 pt회원리스트 -->
+	<select id="selectlist" parameterType="map" resultType="com.javaex.vo.PtVo">
+		<![CDATA[
+			select m.name as memberName,
+				   p.pt_count as ptCount,
+			       t.name as trainerName
+			from pt p,member m,trainer t
+			where p.no = m.no
+			and p.trainer_no = t.trainer_no
+			and p.trainer_no = #{trainerNo}
+		]]>
+		<if test="keyword != null">
+			<![CDATA[
+				and (m.name like concat('%',#{keyword},'%') or p.pt_count like concat('%',#{keyword},'%'))
+			]]>
+		</if>	
+		<![CDATA[				 
+			limit #{startRowNo}, #{listCnt}
+		]]>
+	</select>
+	
+	<!-- 전체 글갯수 -->
+	<select id="selectMemberTotalCnt" parameterType="string" resultType="int">
+		<![CDATA[
+			select count(*) count
+			from pt p,member m
+			where p.no = m.no
+		]]>
+		<if test="keyword != null">
+			<![CDATA[
+				and (m.name like concat('%',#{keyword},'%') or p.pt_count like concat('%',#{keyword},'%'))
+			]]>
+		</if>	
+	</select>
+	
+	<!-- 전체 회원리스트 -->
+	<select id="selectlistAll" parameterType="map" resultType="com.javaex.vo.PtVo">
+		<![CDATA[
+			select m.name as memberName,
+				   p.pt_count as ptCount,
+			       t.name as trainerName
+			from pt p,member m,trainer t
+			where p.no = m.no
+			and p.trainer_no = t.trainer_no
+		]]>
+		<if test="keyword != null">
+			<![CDATA[
+				and (m.name like concat('%',#{keyword},'%') or p.pt_count like concat('%',#{keyword},'%'))
+			]]>
+		</if>	
+		<![CDATA[				 
+			limit #{startRowNo}, #{listCnt}
+		]]>
+	</select>
+	
+	
+	
+</mapper>

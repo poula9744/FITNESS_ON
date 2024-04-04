@@ -24,6 +24,20 @@ public class TrainerVo {
 	public TrainerVo() {
 		super();
 	}
+	
+	
+
+	public TrainerVo(int trainerNo, String saveName, String orgName, String filePath, long fileSize, String career) {
+		super();
+		this.trainerNo = trainerNo;
+		this.career = career;
+		this.saveName = saveName;
+		this.orgName = orgName;
+		this.filePath = filePath;
+		this.fileSize = fileSize;
+	}
+
+
 
 	public TrainerVo(int trainerNo, String id, String password, String name, String address, String gender, String hp,
 			int age, String career, String saveName, String orgName, String filePath, long fileSize) {

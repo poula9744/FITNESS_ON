@@ -9,5 +9,8 @@
 		<mapper resource="mybatis/mappers/trainer.xml" />
 		<mapper resource="mybatis/mappers/gym.xml" />
 		<mapper resource="mybatis/mappers/manager.xml" />
+		<mapper resource="mybatis/mappers/pt.xml" />
 	</mappers>
 </configuration>
+
+

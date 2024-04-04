@@ -1,10 +1,16 @@
 package com.javaex.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.javaex.dao.MemberDao;
+import com.javaex.vo.LessonVo;
 import com.javaex.vo.MemberVo;
+import com.javaex.vo.PtVo;
 
 @Service
 public class MemberService {
@@ -55,6 +61,29 @@ public class MemberService {
 		int count = memberDao.memberUpdate(memberVo);
 		System.out.println(memberVo);
 		return count;
+	}
+
+	// 회원정보 + 해당회원의 lesson 리스트정보
+	public Map<String, Object> exeMbLessonList(int no) {
+		System.out.println("MemberService.exeMbLessonList()");
+
+		// no인 회원의 정보 이름, 전화번호, 회원번호
+
+		MemberVo memberVo = memberDao.memberSelectOneByNo(no);
+
+		// pt 리스트
+		List<PtVo> ptInfoList = memberDao.ptInfoSelectList(no);
+		int ptNo = ptInfoList.get(0).getPtNo();
+
+		// 레슨리스트
+		List<LessonVo> mblessonList = memberDao.memberLessonSelectList(1);
+
+		Map<String, Object> lessonMap = new HashMap<String, Object>();
+		lessonMap.put("memberVo", memberVo);
+		lessonMap.put("ptInfoList", ptInfoList);
+		lessonMap.put("mblessonList", mblessonList);
+
+		return lessonMap;
 	}
 
 }
