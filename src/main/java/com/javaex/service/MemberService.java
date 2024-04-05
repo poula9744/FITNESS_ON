@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.javaex.dao.MemberDao;
+import com.javaex.vo.LeVo;
 import com.javaex.vo.LessonVo;
 import com.javaex.vo.MemberVo;
 import com.javaex.vo.PtVo;
@@ -76,7 +77,7 @@ public class MemberService {
 		int ptNo = ptInfoList.get(0).getPtNo();
 
 		// 레슨리스트
-		List<LessonVo> mblessonList = memberDao.memberLessonSelectList(ptNo);
+		List<LessonVo> mblessonList = memberDao.memberLessonSelectList(no);
 
 		Map<String, Object> lessonMap = new HashMap<String, Object>();
 		lessonMap.put("memberVo", memberVo);
@@ -87,11 +88,17 @@ public class MemberService {
 	}
 	
 	//lesson 리스트 등록 
-	public int exeLessonWrite(LessonVo lessonVo) {
+	public int exeLessonWrite(LeVo a) {
 		System.out.println("MemberService.exeLessonWrite()");
-		int result = memberDao.memberLessonWrite(lessonVo);
-		memberDao.memberLessonUpdate(lessonVo);
-		return result;
+		
+		LessonVo lv =  memberDao.memberLessonWrite(a);
+		lv.setComment(a.getComment());
+		memberDao.memberLessonUpdate(lv);
+		System.out.println(lv);
+		
+		return memberDao.memberLessonWrite2(lv);
+		
+		
 	}
 
 }

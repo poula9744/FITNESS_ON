@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.javaex.service.MemberService;
 import com.javaex.util.JsonResult;
 import com.javaex.util.JwtUtil;
-import com.javaex.vo.LessonVo;
+import com.javaex.vo.LeVo;
 import com.javaex.vo.MemberVo;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -133,10 +132,11 @@ public class MemberController {
 	}
 
 	// 강사용: 회원정보 + 해당회원의 lesson 리스트정보
-	@GetMapping(value = "/api/member/lessonlist2/{no}")
-	public JsonResult lessonlistForTrainer(@PathVariable("no") int no, HttpServletRequest request) {
+	@PostMapping(value = "/api/member/lessonlist2")
+	public JsonResult lessonlistForTrainer(@RequestBody int no, HttpServletRequest request) {
 		System.out.println("MemberController.lessonlistForTrainer()");
 
+		System.out.println(no);
 		int auth = JwtUtil.getNoFromHeader(request);
 		//System.out.println(auth);
 		//System.out.println(no);
@@ -152,18 +152,20 @@ public class MemberController {
 	}
 
 	// lesson 리스트 정보 등록
-	@PostMapping(value = "/api/member/lessonlist2/{no}")
-	public JsonResult lessonWrite(@PathVariable("no") int no, @RequestBody LessonVo lessonVo, HttpServletRequest request) {
+	@PostMapping(value = "/api/member/lessonlist3")
+	public JsonResult lessonWrite(@RequestBody LeVo a, HttpServletRequest request) {
 		System.out.println("MemberController.lessonlist()");
 
 		int ptNo = JwtUtil.getNoFromHeader(request);
 		
-		lessonVo.setPtNo(ptNo);
-		lessonVo.setNo(no);
+		int no = a.getNo();
+		String comment = a.getComment();
+		
+		System.out.println(comment);
 		System.out.println(no);
-		System.out.println("lessonVo:::::"+lessonVo);
+		
 		if (ptNo != -1) { // 정상
-			int result = memberService.exeLessonWrite(lessonVo );
+			int result = memberService.exeLessonWrite(a);
 			System.out.println(result);
 
 			return JsonResult.success(result);

@@ -30,7 +30,11 @@
 	<!-- 로그인 후 메인 화면 -->
 	<select id="selectMemberInfo" resultType="com.javaex.vo.MemberVo" parameterType="int">
 		<![CDATA[
-			select m.name, g.reg_date as regDate, g.deadline, p.pt_count as ptCount, t.name as trainerName, m.locker_no as lockerNo, approval
+			select m.name, 
+						DATE_FORMAT(g.reg_date, '%Y-%m-%d') as regDate, 
+						DATE_FORMAT(g.deadline, '%Y-%m-%d') as deadline, 
+						p.pt_count as ptCount, 
+						t.name as trainerName, m.locker_no as lockerNo, approval
 			from member m
 			left join general g on m.no = g.no
 			left join pt p on m.no = p.no
@@ -116,15 +120,24 @@
 			]]>
 	</select>
 	
-	<insert id="lessonWrite" parameterType="com.javaex.vo.LessonVo">
+	<select id="lessonWrite" parameterType="int" resultType="com.javaex.vo.LessonVo">
 		<![CDATA[
-			insert into lesson (pt_no, comment, l_date)
-			select #{ptNo}, #{comment}, now()
-			from pt p
-			join member m on p.no = m.no
-			where m.no = #{no}
+			select	member.no,
+						pt_no ptNo,
+				        pt_count
+				from member, pt
+				where member.no = pt.no
+				and member.no = #{no}
+				order by pt_count desc
+				limit 0, 1
 		]]>
+	</select>
+	
+	<insert id="lessonWrite2" parameterType="com.javaex.vo.LessonVo">
+		insert into lesson
+		values(null, #{ptNo}, #{comment}, now())
 	</insert>
+	
 	<update id="lessonUpdate" parameterType="com.javaex.vo.LessonVo">
 		<![CDATA[
 		update pt

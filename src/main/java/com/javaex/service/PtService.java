@@ -114,7 +114,7 @@ public class PtService {
 		System.out.println("PtService.exeMemberList()");
 
 		// 한페이지당 출력 글갯수
-		int listCnt = 9;
+		int listCnt = 7;
 
 		// crtPage
 		crtPage = (crtPage > 0) ? crtPage : (crtPage = 1);

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.javaex.vo.LeVo;
 import com.javaex.vo.LessonVo;
 import com.javaex.vo.MemberVo;
 import com.javaex.vo.PtVo;
@@ -90,12 +91,19 @@ public class MemberDao {
 	}
 	
 	//lesson 등록 
-	public int memberLessonWrite(LessonVo lessonVo ) {
+	public LessonVo memberLessonWrite(LeVo a) {
 		System.out.println("MemberDao.memberLessonSelectList()");
-		System.out.println("왜안될까요"+lessonVo);
-		int count = sqlSession.insert("member.lessonWrite", lessonVo);
-		System.out.println(count);
-		return count;
+		System.out.println("왜안될까요"+a.getNo());
+		int no = a.getNo();
+		System.out.println(no);
+		LessonVo lv = sqlSession.selectOne("member.lessonWrite", no);
+		System.out.println(lv);
+		return lv;
+	}
+	
+	public int memberLessonWrite2(LessonVo lv) {
+		
+		return sqlSession.insert("member.lessonWrite2", lv);
 	}
 	
 	public int memberLessonUpdate(LessonVo lessonVo) {
