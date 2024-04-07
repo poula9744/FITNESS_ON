@@ -93,7 +93,6 @@ public class MemberDao {
 	//lesson 등록 
 	public LessonVo memberLessonWrite(LeVo a) {
 		System.out.println("MemberDao.memberLessonSelectList()");
-		System.out.println("왜안될까요"+a.getNo());
 		int no = a.getNo();
 		System.out.println(no);
 		LessonVo lv = sqlSession.selectOne("member.lessonWrite", no);

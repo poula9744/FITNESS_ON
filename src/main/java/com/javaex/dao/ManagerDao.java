@@ -13,6 +13,7 @@ import com.javaex.vo.LessonVo;
 import com.javaex.vo.ManagerVo;
 import com.javaex.vo.MemberVo;
 import com.javaex.vo.PtVo;
+import com.javaex.vo.TrainerVo;
 
 @Repository
 public class ManagerDao {
@@ -96,5 +97,15 @@ public class ManagerDao {
 	//회원수정
 	public int modify(MemberVo memberVo) {
 		return sqlSession.update("manager.modify", memberVo);
+	}
+	
+	
+	//트레이너 메인 
+	public List<TrainerVo> trainerList(){
+		List<TrainerVo>trainerList = sqlSession.selectList("manager.trainerlist");
+
+		System.out.println(trainerList);
+
+		return trainerList;
 	}
 }

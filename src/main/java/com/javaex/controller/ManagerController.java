@@ -51,5 +51,14 @@ public class ManagerController {
 		return JsonResult.success(memberVo);
 	}
 	
+	//트레이너 메인 
+	@PostMapping("/api/gym/trainer")
+	public Map<String, Object> trainerList(@RequestBody ListUtil listTrainer){
+		
+		Map<String, Object> map = managerService.exeTrainerList(listTrainer);
+		
+		return map;
+	}
+	
 	
 }
